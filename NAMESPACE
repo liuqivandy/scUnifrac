@@ -1,3 +1,3 @@
-import(ape, permute, GUniFrac, limma, Rtsne, R.utils, knitr, kableExtra, devtools)
-
+import(ape, permute, GUniFrac, limma, Rtsne, R.utils, knitr, kableExtra)
+importFrom(devtools, session_info)
 export(scUnifrac, scUnifracFromFile)
