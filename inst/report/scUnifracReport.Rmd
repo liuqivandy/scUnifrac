@@ -9,7 +9,7 @@ output:
     highlight: tango  
 params:
   data: plotData
-  dir: output_dir
+  outFile: outputFile
 ---
 
 ```{r setup, include=FALSE}
@@ -87,7 +87,7 @@ options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**
 
 ```{r data, include=FALSE, cache=FALSE}
 plotData<-params$data
-output_dir<-params$dir
+outputFile<-params$outFile
 DISPLAY_FIGURE<-TRUE
 ```
 
@@ -134,7 +134,7 @@ Plotdiff_tSNE(plotData$count.table, plotData$hvgdata_pca, plotData$memb, plotDat
 <hr>
 
 ```{r dataPreparation, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
-subRmd<-paste0(output_dir, "/subpopulation.rmd")
+subRmd<-paste0(outputFile, "_subpopulation.rmd")
 fileContent<-c("# Subpopulation View \n")
 for (i in 1:length(plotData$diffnodes)){
   nodeName<-plotData$diffnodes[i]

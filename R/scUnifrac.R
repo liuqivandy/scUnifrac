@@ -10,7 +10,7 @@ doReport<-function(plotData, outputFile){
   rmarkdown::render(reportRmd,
                     output_dir = output_dir,
                     output_file = output_file,
-                    params = list(data = plotData, dir = output_dir))
+                    params = list(data = plotData, outFile = outputFile))
 }
 
 scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, cache=TRUE){
