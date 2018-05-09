@@ -160,6 +160,10 @@ writeLines(fileContent, subRmd)
 ```{r child=subRmd, echo=FALSE}
 ```
 
+```{r cleanup, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
+file.remove(subRmd)
+```
+
 # Session Info
 
 ```{r session_info, include=TRUE, echo=TRUE, results='markup'}
