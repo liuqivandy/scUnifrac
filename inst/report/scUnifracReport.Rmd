@@ -121,13 +121,13 @@ kable(df, caption=tabRef("tableDiff", "Significantly different subpopulations an
 
 <hr>
 
-```{r plotTree, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTree", "Phylogenetic tree plot of subpopulation structures. Cell subpopulations that are enriched in the first scRNA-seq profile labeled as red, while subpopulations enriched in the second profile are labeled as blue. The line width is proportion to the enrichment. Thicker lines suggest more enriched in one profile. Cell subpopulations that are similar in both samples are labeled as black."), fig.height=6}
+```{r plotTree, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTree", "Phylogenetic tree plot of subpopulation structures. Cell subpopulations that are enriched in the first scRNA-seq profile labeled as red, while subpopulations enriched in the second profile are labeled as blue. The line width is proportion to the enrichment. Thicker lines suggest more enriched in one profile. Cell subpopulations that are similar in both samples are labeled as black."), fig.height=8, fig.width=8}
 Plotdiff_tree(plotData$count.table,plotData$tree,plotData$diffpop_perm_max,plotData$relpop_perm_max,plotData$legendtxt)
 ```
 
 <hr>
 
-```{r plotTSNE, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTSNE", "tSNE plot of subpopulation structures. Each subpopulation that are different between two profiles are denoted as different colors, and subpopulations that are similar between two profiles are denotes as gray. Cells from the first profile are denoted by circle, while cell from the second profile are denoted by star. "), fig.height=6}
+```{r plotTSNE, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTSNE", "tSNE plot of subpopulation structures. Each subpopulation that are different between two profiles are denoted as different colors, and subpopulations that are similar between two profiles are denotes as gray. Cells from the first profile are denoted by circle, while cell from the second profile are denoted by star. "), fig.height=8, fig.width=8}
 Plotdiff_tSNE(plotData$count.table, plotData$hvgdata_pca, plotData$memb, plotData$diffnodes,plotData$colcluster,plotData$legendtxt)
 ```
 
