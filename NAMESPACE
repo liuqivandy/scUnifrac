@@ -1,0 +1,3 @@
+import(ape, permute, GUniFrac, limma, Rtsne, R.utils, knitr, kableExtra)
+
+export(scUnifrac, scUnifracFromFile)

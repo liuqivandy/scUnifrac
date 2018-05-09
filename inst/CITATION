@@ -1,0 +1,11 @@
+citEntry(entry="article",
+         title = "scUnifrac",
+         author = personList( as.person("Quanhu Sheng"),
+                              as.person("Yu Shyr"),
+                              as.person("Qi Liu")),
+         year = 2018,
+         journal = "",
+         doi = "",
+         url = "",
+         textVersion = "scUnifrac: quantify cell subpopulation diversity between two single-cell transcriptome profiles" )
+

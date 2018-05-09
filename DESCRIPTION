@@ -1,0 +1,10 @@
+Package: scUnifrac
+Version: 0.9.1
+Date: 2018-05-09
+Title: a package for quantify cell subpopulation diversity between two single-cell transcriptome profiles
+Author: Quanhu Sheng, Yu Shyr, Qi Liu
+Maintainer: "Quanhu SHENG" <shengqh@gmail.com>
+Depends: ape, permute, GUniFrac, limma, Rtsne, R.utils, knitr, kableExtra
+Description: Quantify cell subpopulation diversity between two single-cell transcriptome profiles
+License: GPL (>= 2)
+VignetteBuilder: knitr
