@@ -100,14 +100,8 @@ DISPLAY_FIGURE<-TRUE
 
 # Results Summary
 
-_Command_: 
-```
-scUnifrac(data1=colon1,data2=pan1,genenum=500,ncluster=10,nDim=4, samplenames=c("Colon","Pan"))
-```
-
-<hr>
-
 Subpopulation structure:
+
 ```{r tableCell, echo=FALSE, results="asis"}
 count.table<-plotData$count.table
 count.table<-data.frame(count.table, check.names = F)
@@ -163,6 +157,11 @@ for (i in 1:length(plotData$diffnodes)){
 writeLines(fileContent, subRmd)
 ```
 
-
 ```{r child=subRmd, echo=FALSE}
+```
+
+# Session Info
+
+```{r session_info, include=TRUE, echo=TRUE, results='markup'}
+devtools::session_info()
 ```
