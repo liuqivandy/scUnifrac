@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{Quantify cell subpopulation diversity between two single-cell transcriptome profiles}
+%\VignetteIndexEntry{Quantitative assessment of cell population diversity in single-cell landscapes}
 %\VignettePackage{scUnifrac}
 %\VignetteEngine{knitr::knitr}
 
@@ -9,7 +9,7 @@
 Quantitative Sciences, Vanderbilt University Medical Center, Nashville, USA} \\ 
 \small{\texttt{$^*$qi.liu (at) vanderbilt.edu}}}
 
-\title{scUnifrac: a package for quantify cell subpopulation diversity between two single-cell transcriptome profiles}
+\title{scUnifrac: a package for quantitative assessment of cell population diversity in single-cell landscapes}
 
 \begin{document}
 
@@ -17,7 +17,7 @@ Quantitative Sciences, Vanderbilt University Medical Center, Nashville, USA} \\
 
 \begin{abstract}
 
-In this vignette, we demonstrate the application of scUnifrac as a package for quantify cell subpopulation diversity between two single-cell transcriptome profiles. 
+In this vignette, we demonstrate the application of scUnifrac as a package for quantitative assessment of cell population diversity in single-cell landscapes. 
 
 \vspace{1em}
 
@@ -30,7 +30,7 @@ In this vignette, we demonstrate the application of scUnifrac as a package for q
       \hline 
       If you use scUnifrac in published research, please cite:  \\
       \\
-      Quanhu Sheng, Yu Shyr, Qi Liu.: scRNABatchQC: a bioconductor package for multiple single cell data quality control. \\
+      Qi Liu, Charles A. Herring, Quanhu Sheng, et.al,: Quantitative assessment of cell population diversity in single-cell landscapes \\
       \hline 
     \end{tabular}
   \end{center}
