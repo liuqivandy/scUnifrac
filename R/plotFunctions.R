@@ -141,7 +141,7 @@ Plotdiff_Celltype<-function(testdata, ref.expr, clustertext){
 
     cors <- cor(ref.match,tst.match)
     
-    cors_index <- apply(cors,2,function(x){return(order(x,decreasing=T)[1])})
+    cors_index <- apply(cors,2,function(x){return(order(x,decreasing=T)[1:3])})
     cors_index <- sort(unique(as.integer(cors_index)))
     scblast.result <- apply(cors,2,function(x) rownames(cors)[which.max(x)])
     if (length(cors_index)>1){
