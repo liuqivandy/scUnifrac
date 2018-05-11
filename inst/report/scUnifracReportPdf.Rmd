@@ -1,12 +1,11 @@
 ---
 title: "scUnifrac Report"
+header-includes:
+   - \usepackage{float}
 output: 
-  rmdformats::material:
-    self_contained: false
-    thumbnails: true
-    lightbox: true
-    gallery: true
-    highlight: tango  
+  pdf_document:
+    toc: true
+    number_sections: true
 params:
   data: plotData
   outFile: outputFile
@@ -41,11 +40,10 @@ figRef <- local({
     }
     if (!missing(caption)) {
       created[label] <<- TRUE
-      paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
-             " ", caption)
+      return(caption)
     } else {
       used[label] <<- TRUE
-      paste(prefix, tag[label])
+      return(tag[label])
     }
   }
 })
@@ -55,8 +53,7 @@ tabRef <- local({
   tag <- numeric()
   created <- logical()
   used <- logical()
-  function(label, caption, prefix = options("tabcap.prefix"), 
-           sep = options("tabcap.sep"), prefix.highlight = options("tabcap.prefix.highlight")) {
+  function(label, caption) {
     i <- which(names(tag) == label)
     if (length(i) == 0) {
       i <- length(tag) + 1
@@ -69,11 +66,10 @@ tabRef <- local({
     }
     if (!missing(caption)) {
       created[label] <<- TRUE
-      paste0(prefix.highlight, prefix, " ", i, sep, prefix.highlight, 
-             " ", caption)
+      return(caption)
     } else {
       used[label] <<- TRUE
-      paste(prefix, tag[label])
+      return(tag[label])
     }
   }
 })
@@ -82,7 +78,7 @@ getHeatmapHeight<-function(hdata){
   max(10, nrow(hdata) / 10)
 }
 
-options(tabcap.prefix = "Table", tabcap.sep = ":", tabcap.prefix.highlight = "**", knitr.table.format = "html")
+options(knitr.table.format = "latex")
 ```
 
 ```{r data, include=FALSE, cache=FALSE}
@@ -106,8 +102,7 @@ Subpopulation structure:
 count.table<-plotData$count.table
 count.table<-data.frame(count.table, check.names = F)
 count.table<-cbind(data.frame(Subpopulation=plotData$samplenames), count.table)
-kable(count.table, caption=tabRef("tableCell", "The number of cells in each subpopulation in two scRNA-seq profiles"), row.names=FALSE, align="r") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
+kable(count.table, caption=tabRef("tableCell", "The number of cells in each subpopulation in two scRNA-seq profiles"), row.names=FALSE, align="r")
 ```
 
 <hr>
@@ -115,19 +110,19 @@ kable(count.table, caption=tabRef("tableCell", "The number of cells in each subp
 ```{r tableDiff, echo=FALSE, results="asis"}
 df<-t(data.frame("R1"=c("Proportion difference", sprintf("%.2f", plotData$diffval))))
 colnames(df)<-c("Subpopulation", plotData$diffnodes)
-kable(df, caption=tabRef("tableDiff", "Significantly different subpopulations and their proportion difference between two scRNA-seq profiles"), row.names=FALSE, align="r") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
+kable(df, caption=tabRef("tableDiff", "Significantly different subpopulations and their proportion difference between two scRNA-seq profiles"), row.names=FALSE, align="r")
 ```
+
 
 <hr>
 
-```{r plotTree, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTree", "Phylogenetic tree plot of subpopulation structures. Cell subpopulations that are enriched in the first scRNA-seq profile labeled as red, while subpopulations enriched in the second profile are labeled as blue. The line width is proportion to the enrichment. Thicker lines suggest more enriched in one profile. Cell subpopulations that are similar in both samples are labeled as black."), fig.height=8, fig.width=8}
+```{r plotTree, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTree", "Phylogenetic tree plot of subpopulation structures. Cell subpopulations that are enriched in the first scRNA-seq profile labeled as red, while subpopulations enriched in the second profile are labeled as blue. The line width is proportion to the enrichment. Thicker lines suggest more enriched in one profile. Cell subpopulations that are similar in both samples are labeled as black."), fig.height=8, fig.width=8, fig.pos="H"}
 Plotdiff_tree(plotData$count.table,plotData$tree,plotData$diffpop_perm_max,plotData$relpop_perm_max,plotData$legendtxt)
 ```
 
 <hr>
 
-```{r plotTSNE, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTSNE", "tSNE plot of subpopulation structures. Each subpopulation that are different between two profiles are denoted as different colors, and subpopulations that are similar between two profiles are denotes as gray. Cells from the first profile are denoted by circle, while cell from the second profile are denoted by star. "), fig.height=8, fig.width=8}
+```{r plotTSNE, eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align="center", fig.cap=figRef("plotTSNE", "tSNE plot of subpopulation structures. Each subpopulation that are different between two profiles are denoted as different colors, and subpopulations that are similar between two profiles are denotes as gray. Cells from the first profile are denoted by circle, while cell from the second profile are denoted by star. "), fig.height=8, fig.width=8, fig.pos="H"}
 Plotdiff_tSNE(plotData$count.table, plotData$hvgdata_pca, plotData$memb, plotData$diffnodes,plotData$colcluster,plotData$legendtxt)
 ```
 
@@ -136,19 +131,20 @@ Plotdiff_tSNE(plotData$count.table, plotData$hvgdata_pca, plotData$memb, plotDat
 ```{r dataPreparation, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE}
 subRmd<-paste0(outputFile, "_subpopulation.rmd")
 fileContent<-c("# Subpopulation View \n")
+#for (i in 1:2){
 for (i in 1:length(plotData$diffnodes)){
   nodeName<-plotData$diffnodes[i]
   commonContent<-paste0("  nodeName<-plotData$diffnodes[", i, "]\n  clustertext<-paste0(\"Subpopulation \", nodeName, \", \", paste(plotData$count.table[, nodeName], collapse=\":\"))\n")
 
-  fileContent<-c(fileContent, paste0("* The cell subpopulation ", nodeName, "\n"))
+  fileContent<-c(fileContent, paste0("\\pagebreak\n\n## The cell subpopulation ", nodeName, "\n"))
   
-  fileContent<-c(fileContent, paste0("```{r plotMarkergene", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotMarkGene", nodeName, "\", \"Heatmap of gene expressions that mark the cell subpopulation ", nodeName, "\"), fig.height=7, fig.width=7}"))
+  fileContent<-c(fileContent, paste0("```{r plotMarkergene", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotMarkGene", nodeName, "\", \"Heatmap of gene expressions that mark the cell subpopulation ", nodeName, "\"), fig.height=7, fig.width=7, fig.pos=\"H\"}"))
 
   fileContent<-c(fileContent, paste0(commonContent,"  Plotdiff_Markergene(plotData$normdata, plotData$memb, nodeName, plotData$colcluster, clustertext)"))
   
   fileContent<-c(fileContent, "```\n")
   
-  fileContent<-c(fileContent, paste0("```{r plotCelltype", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotCelltype", nodeName, "\", \"Predicted cell types of the cell subpopulation ", nodeName, "\"), fig.height=7, fig.width=7}"))
+  fileContent<-c(fileContent, paste0("```{r plotCelltype", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotCelltype", nodeName, "\", \"Predicted cell types of the cell subpopulation ", nodeName, "\"), fig.height=7, fig.width=7, fig.pos=\"H\"}"))
   
   fileContent<-c(fileContent, paste0(commonContent, "  Plotdiff_Celltype(plotData$normdata[,plotData$memb==nodeName], plotData$ref.expr, clustertext)"))
   

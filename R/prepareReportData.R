@@ -49,9 +49,9 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
     } 
   }
 
-  ref.expr<-read.csv(refExprFile, row.names=1)
-  data1<-read.csv(sampleFile1, row.names=1)
-  data2<-read.csv(sampleFile2, row.names=1)
+  ref.expr<-read.csv(refExprFile, row.names=1, check.names=F)
+  data1<-read.csv(sampleFile1, row.names=1, check.names=F)
+  data2<-read.csv(sampleFile2, row.names=1, check.names=F)
   
   plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, cachePrefix)
 

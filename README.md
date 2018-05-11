@@ -29,6 +29,6 @@ Here we show the most basic steps.
 	load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
 	load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
-	scUnifrac("scUnifracReport.html", colon1, "Colon", pan1, "Pan", ref.expr, genenum=500, ncluster=10, nDim=4, cache=TRUE )
+	scUnifrac("scUnifracReport.html", colon1, "Colon", pan1, "Pan", ref.expr, genenum=500, ncluster=10, nDim=4, cache=TRUE, pdf=FALSE )
 
 The colon1 and pan1 dataset are two gene expression data matrix in which rownames are gene symbols and columns are samples. The rownames of two matrix should be identical since the data matrix will be merged together for analysis.

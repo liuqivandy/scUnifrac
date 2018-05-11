@@ -4,10 +4,10 @@ Plotdiff_tree<-function(otu.tab, tree, diffpop_perm_max,relpop_perm_max, legendt
   diffpop<-abs(diffp$cum[,1]-diffp$cum[,2])
   relpop<-diffp$relpop
   ##the permuated proportion difference 
-
+  
   ##find the node with signficant proprotion difference		
   diffid<- diffpop>diffpop_perm_max
-
+  
   ### define the color###      
   col<-rep("black",nrow(tree$edge))
   col[(diffp$cum[,1]-diffp$cum[,2]>0) & (relpop>apply(cbind(0.95,relpop_perm_max),1,min))] <-"pink"
@@ -94,7 +94,7 @@ Plotdiff_Markergene<-function(normdata, memb, diffnode,colcluster,clustertext,lo
   scaledmatrix<-t(scale(t(markerdata_reorder)))
   scaledmatrix[scaledmatrix>3]<-3
   scaledmatrix[scaledmatrix<(-3)]<-(-3)
-
+  
   rhc<-hclust(as.dist(1-cor(t(scaledmatrix))),"ave")
   scaledmatrix_reorder<-scaledmatrix[rhc$order,]
   rownum<-nrow(scaledmatrix)
@@ -131,14 +131,9 @@ Plotdiff_Celltype<-function(testdata, ref.expr, clustertext){
   commongene<-intersect(rownames(testdata),rownames(ref.expr))
   ##require more than 300 genes in common to predict cell types
   if (length(commongene)>300){
-    matchid<-match(commongene,rownames(testdata))
+    tst.match <- testdata[commongene,]
+    ref.match<-ref.expr[commongene,]
     
-    
-    tst.match <- testdata[matchid[!is.na(matchid)],]
-    matchid<-match(commongene,rownames(ref.expr))
-    
-    ref.match<-ref.expr[matchid[!is.na(matchid)],]
-
     cors <- cor(ref.match,tst.match)
     
     cors_index <- apply(cors,2,function(x){return(order(x,decreasing=T)[1:3])})
