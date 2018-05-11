@@ -142,13 +142,13 @@ for (i in 1:length(plotData$diffnodes)){
 
   fileContent<-c(fileContent, paste0("* The cell subpopulation ", nodeName, "\n"))
   
-  fileContent<-c(fileContent, paste0("```{r plotMarkergene", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotMarkGene", nodeName, "\", \"Heatmap of gene expressions that mark the cell subpopulation ", nodeName, "\"), fig.height=6}"))
+  fileContent<-c(fileContent, paste0("```{r plotMarkergene", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotMarkGene", nodeName, "\", \"Heatmap of gene expressions that mark the cell subpopulation ", nodeName, "\"), fig.height=7}"))
 
   fileContent<-c(fileContent, paste0(commonContent,"  Plotdiff_Markergene(plotData$normdata, plotData$memb, nodeName,plotData$colcluster,clustertext)"))
   
   fileContent<-c(fileContent, "```\n")
   
-  fileContent<-c(fileContent, paste0("```{r plotCelltype", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotCelltype", nodeName, "\", \"Predicted cell types of the cell subpopulation ", nodeName, "\"), fig.height=6}"))
+  fileContent<-c(fileContent, paste0("```{r plotCelltype", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotCelltype", nodeName, "\", \"Predicted cell types of the cell subpopulation ", nodeName, "\"), fig.height=7}"))
   
   fileContent<-c(fileContent, paste0(commonContent, "  Plotdiff_Celltype(plotData$normdata[,plotData$memb==nodeName], plotData$ref.expr, clustertext)"))
   
