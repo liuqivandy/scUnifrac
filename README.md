@@ -14,7 +14,12 @@ scUnifrac is to quantify cell subpopulation diversity between two single-cell tr
 
 # Download and installation
 
-You can install scUnifrac by:
+You need to install some bioconductor required libraries first:
+
+	source("https://bioconductor.org/biocLite.R")
+	biocLite("limma")
+	
+Then you can install scUnifrac by:
 
 	library(devtools)
 	devtools::install_github("liuqivandy/scUnifrac")
