@@ -40,10 +40,13 @@ Here we show the most basic steps.
 	load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
 	
-	#test two different profiles
-	scUnifrac("scUnifrac_colon_pan.pdf", colon1, "Colon", pan1, "Pan", ref.expr, cache=TRUE, outputPdf=TRUE )
-	scUnifrac("scUnifrac_colon_pan.html", colon1, "Colon", pan1, "Pan", ref.expr, cache=TRUE, outputPdf=FALSE )
-	
+	data1<-colon1
+	sampleName1<-"Colon"
+	data2<-pan1
+	sampleName2<-"Pan"
+	scUnifrac("scUnifrac_colon_pan.pdf", data1, sampleName1, data2, sampleName2, ref.expr, cache=TRUE, outputPdf=TRUE )
+	scUnifrac("scUnifrac_colon_pan.html", data1, sampleName1, data2, sampleName2, ref.expr, cache=TRUE, outputPdf=FALSE )
+
 	#test two similar profiles
 	s1<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 	s1<-s1[order(s1)]
@@ -53,7 +56,7 @@ Here we show the most basic steps.
 	sampleName1<-"Colon1"
 	data2<-colon1[,s2]
 	sampleName2<-"Colon2"
-	scUnifrac("scUnifrac_colon_colon.pdf", colon1, "Colon", pan1, "Pan", ref.expr, cache=TRUE, outputPdf=TRUE )
-	scUnifrac("scUnifrac_colon_colon.html", colon1, "Colon", pan1, "Pan", ref.expr, cache=TRUE, outputPdf=FALSE )
-
+	scUnifrac("scUnifrac_colon_colon.pdf", data1, sampleName1, data2, sampleName2, ref.expr, cache=TRUE, outputPdf=TRUE )
+	scUnifrac("scUnifrac_colon_colon.html", data1, sampleName1, data2, sampleName2, ref.expr, cache=TRUE, outputPdf=FALSE )
+	
 The colon1 and pan1 dataset are two gene expression data matrix in which rownames are gene symbols and columns are samples. The rownames of two matrix should be identical since the data matrix will be merged together for analysis.
