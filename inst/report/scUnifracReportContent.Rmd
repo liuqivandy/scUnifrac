@@ -14,6 +14,8 @@ getHeatmapHeight<-function(hdata){
   max(10, nrow(hdata) / 10)
 }
 
+hasCellTypes<-!is.null(plotData$ref.expr) & !is.na(plotData$ref.expr)
+
 ```
 
 # Overview
@@ -83,11 +85,14 @@ for (i in 1:length(plotData$diffnodes)){
   
   fileContent<-c(fileContent, "```\n")
   
+  if(hasCellTypes){
   fileContent<-c(fileContent, paste0("```{r plotCelltype", nodeName, ", eval=DISPLAY_FIGURE, echo=FALSE, warning=FALSE, message=FALSE, results='asis', fig.align=\"center\", fig.cap=figRef(\"", "plotCelltype", nodeName, "\", \"Predicted cell types of the cell subpopulation ", nodeName, "\"), fig.height=7, fig.width=7, fig.pos=\"H\"}"))
   
   fileContent<-c(fileContent, paste0(commonContent, "  Plotdiff_Celltype(plotData$normdata[,plotData$memb==nodeName], plotData$ref.expr, clustertext)"))
   
-  fileContent<-c(fileContent, "```\n<hr>\n")
+  fileContent<-c(fileContent, "```\n")
+  }
+  fileContent<-c(fileContent, "<hr>\n")
 }
 writeLines(fileContent, subRmd)
 ```

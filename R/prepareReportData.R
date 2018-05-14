@@ -48,8 +48,11 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
       return(plotData)
     } 
   }
-
-  ref.expr<-read.csv(refExprFile, row.names=1, check.names=F)
+  if(!missing(refExprFile) & !is.na(refExprFile) & !is.null(refExprFile)){
+    ref.expr<-read.csv(refExprFile, row.names=1, check.names=F)
+  }else{
+    ref.expr<-NULL
+  }
   data1<-read.csv(sampleFile1, row.names=1, check.names=F)
   data2<-read.csv(sampleFile2, row.names=1, check.names=F)
   
@@ -59,6 +62,10 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
 }  
   
 prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
+  if(missing(ref.expr) || is.na(ref.expr)){
+    ref.expr<-NULL
+  }
+  
   saveCache<-!missing(cachePrefix)
   
   if(saveCache){
