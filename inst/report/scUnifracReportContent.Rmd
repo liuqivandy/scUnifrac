@@ -95,7 +95,7 @@ writeLines(fileContent, subRmd)
 ```{r child=subRmd, echo=FALSE, eval=hasDiffnodes}
 ```
 
-```{r cleanup, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, eval=hasDiffnodes}
+```{r cleanup, include=FALSE, echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, eval=hasDiffnodes}
 file.remove(subRmd)
 ```
 
