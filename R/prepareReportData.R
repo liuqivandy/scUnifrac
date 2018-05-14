@@ -37,7 +37,7 @@ Diff_population<-function(otu.tab, tree){
   return(paste0(cachePrefix, "_scUnifrac.rdata"))
 }
 
-prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, cachePrefix){
+prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){
   saveCache<-!missing(cachePrefix)
 
   if(saveCache){
@@ -53,12 +53,12 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
   data1<-read.csv(sampleFile1, row.names=1, check.names=F)
   data2<-read.csv(sampleFile2, row.names=1, check.names=F)
   
-  plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, cachePrefix)
+  plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix)
 
   return(plotData)
 }  
   
-prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, cachePrefix){  
+prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
   saveCache<-!missing(cachePrefix)
   
   if(saveCache){
@@ -149,6 +149,11 @@ prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, ge
   
   pvalue<-sum(dist.obs<t.permu)/nperm
   
+  if(!report){
+	return(list(distance=dist.obs,
+	            pvalue=pvalue))
+  }
+  
   diffpop_perm_max<-apply(diffpop_perm,1,max)
   relpop_perm_max<-apply(relpop_perm,1,max)
   
@@ -174,7 +179,9 @@ prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, ge
   notdiffnodes<-!rep(1:ncluster)%in% diffnodes
   colcluster[notdiffnodes]<-"gray95"
   
-  plotData<-list(ref.expr=ref.expr,
+  plotData<-list(distance=dist.obs,
+	               pvalue=pvalue,
+				         ref.expr=ref.expr,
                  count.table=count.table, 
                  normdata=normdata,
                  tree=tree1, 
