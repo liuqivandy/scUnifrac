@@ -1,23 +1,11 @@
 doReport<-function(plotData, outputFile, outputPdf=F){
   if(outputPdf){
-    if(DEBUG_ScUnifrac){
-      reportRmd <- "E:/sqh/programs/scUnifrac/inst/report/scUnifracReportPdf.Rmd"
-    }else{
-      reportRmd <- system.file("report/scUnifracReportPdf.Rmd", package="scUnifrac")
-    }
+    reportRmd <- system.file("report/scUnifracReportPdf.Rmd", package="scUnifrac")
   }else{
-    if(DEBUG_ScUnifrac){
-      reportRmd <- "E:/sqh/programs/scUnifrac/inst/report/scUnifracReport.Rmd"
-    }else{
-      reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
-    }
+    reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
   }
-  
-  if(DEBUG_ScUnifrac){
-    reportContentRmd<-"E:/sqh/programs/scUnifrac/inst/report/scUnifracReportContent.Rmd"
-  }else{
-    reportContentRmd <- system.file("report/scUnifracReportContent.Rmd", package="scUnifrac")
-  }
+
+  reportContentRmd <- system.file("report/scUnifracReportContent.Rmd", package="scUnifrac")
 
   outputPrefix<-sub("[.][^.]*$", "", outputFile) 
   outputRmd<-paste0(outputPrefix, ".Rmd")
