@@ -14,7 +14,16 @@ scUnifrac is to quantify cell subpopulation diversity between two single-cell tr
 
 # Download and installation
 
-You can install scUnifrac by:
+[optional] In order to generate report in pdf format, you need to [install MikTex and pandoc](http://rprogramming.net/create-html-or-pdf-files-with-r-knitr-miktex-and-pandoc/) first. After installation of MikTex and pandoc, we recommend you to restart your computer before you test the scUnifrac package.
+
+<br>
+
+Then you need to install bioconductor library limma:
+
+	source("https://bioconductor.org/biocLite.R")
+	biocLite("limma")
+	
+Finally you can install scUnifrac by:
 
 	library(devtools)
 	devtools::install_github("liuqivandy/scUnifrac")
