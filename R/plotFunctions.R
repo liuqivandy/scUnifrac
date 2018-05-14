@@ -158,7 +158,7 @@ Plotdiff_Celltype<-function(testdata, ref.expr, clustertext){
       par(yaxs="i")
       image(1:colnum,1:rownum,t(cors_in[hc$order,rhc$order]),col=colorRampPalette(c("gray","white","red"))(100),axes=F) 
       rowcex<-min(0.6, 50 / rownum * 0.6)
-      axis(4,1:rownum,labels=rownames(cors_in),las=2,tick=F,cex.axis=rowcex)
+      axis(4,1:rownum,labels=rownames(cors_in)[hc$order],las=2,tick=F,cex.axis=rowcex)
       mtext(clustertext,side=1,line=1,at=colnum/2,cex=1.5)
       par(mar=c(0,1,1,10))
       plot(as.dendrogram(rhc),axes=F,leaflab="none")
