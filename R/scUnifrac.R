@@ -1,37 +1,69 @@
-doReport<-function(plotData, outputFile, pdf=F){
-  if(pdf){
-    reportRmd <- system.file("report/scUnifracReportPdf.Rmd", package="scUnifrac")
+doReport<-function(plotData, outputFile, outputPdf=F){
+  if(outputPdf){
+    if(DEBUG_ScUnifrac){
+      reportRmd <- "E:/sqh/programs/scUnifrac/inst/report/scUnifracReportPdf.Rmd"
+    }else{
+      reportRmd <- system.file("report/scUnifracReportPdf.Rmd", package="scUnifrac")
+    }
   }else{
-    reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
+    if(DEBUG_ScUnifrac){
+      reportRmd <- "E:/sqh/programs/scUnifrac/inst/report/scUnifracReport.Rmd"
+    }else{
+      reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
+    }
+  }
+  
+  if(DEBUG_ScUnifrac){
+    reportContentRmd<-"E:/sqh/programs/scUnifrac/inst/report/scUnifracReportContent.Rmd"
+  }else{
+    reportContentRmd <- system.file("report/scUnifracReportContent.Rmd", package="scUnifrac")
   }
 
   outputPrefix<-sub("[.][^.]*$", "", outputFile) 
   outputRmd<-paste0(outputPrefix, ".Rmd")
+  outputContentRmd<-paste0(outputFile, "_content.Rmd")
   
   file.copy(reportRmd, outputRmd, overwrite=TRUE)
-  
+  file.copy(reportContentRmd, outputContentRmd, overwrite=TRUE)
+
   outputFile <- getAbsolutePath(outputFile)
   cat("Output report to:", outputFile, "\n")
   
   knitr::knit_meta(class=NULL, clean = TRUE)
-  rmarkdown::render(outputRmd, params = list(data = plotData, outFile = outputFile))
+  rmarkdown::render(outputRmd, params = list(data = plotData, outFile = outputFile, contentFile=outputContentRmd))
+  
+  if(file.exists(outputFile)){
+    file.remove(outputRmd)
+    file.remove(outputContentRmd)
+  }
 }
 
-scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, cache=TRUE, pdf=FALSE){
+scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE){
   if(cache){
-    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, cachePrefix=outputFile)
+    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
-    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize)
+    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report)
   }
   
-  doReport(plotData, outputFile, pdf)
+  if(report){
+	  doReport(plotData, outputFile, outputPdf)
+  }
+  
+  return(list(distance=plotData$distance,
+              pvalue=plotData$pvalue))
 }
 
-scUnifrac<-function(outputFile, data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, cache=TRUE, pdf=FALSE){
+scUnifrac<-function(outputFile, data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE){
   if(cache){
-    plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, cachePrefix=outputFile)
+    plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
-    plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize)
+    plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report)
   }
-  doReport(plotData, outputFile, pdf)
+
+  if(report){
+    doReport(plotData, outputFile, outputPdf)
+  }
+  
+  return(list(distance=plotData$distance,
+              pvalue=plotData$pvalue))
 }
