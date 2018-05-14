@@ -36,14 +36,16 @@ Plotdiff_tSNE<-function(otu.tab, data, memb, diffnodes,colcluster,legendtxt ){
   shape<-c(rep(16,nsample[1]),rep(8,nsample[2]))
   plot(tsne_out$Y,col=colcluster[memb],pch=shape,xlab="tSNE1",ylab="tSNE2")
   
-  legend("topright",legend=diffnodes,col=colcluster[diffnodes],lty=1,bty="n")
   legend("topleft",legend=legendtxt$samplenames,pch=c(16,8))
-  title(paste("Distance=",round(legendtxt$dis,2),", pval=",legendtxt$pval))
-  
-  for (i in 1:length(diffnodes)){
-    cord<-apply(tsne_out$Y[memb==diffnodes[i],],2,median)
-    text(cord[1],cord[2],labels=diffnodes[i],col="black",cex=2)
+  if(length(diffnodes) > 0){
+    legend("topright",legend=diffnodes,col=colcluster[diffnodes],lty=1,bty="n")
+    for (i in 1:length(diffnodes)){
+      cord<-apply(tsne_out$Y[memb==diffnodes[i],],2,median)
+      text(cord[1],cord[2],labels=diffnodes[i],col="black",cex=2)
+    }
   }
+  
+  title(paste("Distance=",round(legendtxt$dis,2),", pval=",legendtxt$pval))
 }
 
 ###find the markers in each different cluster##########################
@@ -105,7 +107,7 @@ Plotdiff_Markergene<-function(normdata, memb, diffnode,colcluster,clustertext,lo
   par(mar=c(3,0,0,6))
   
   image(1:colnum,1:rownum,t(scaledmatrix_reorder),col= colorRampPalette(c("blue","white", "red"))(100),zlim=c(-3,3),axes=F,xlab="",ylab="")
-  rowcex<-max(0.8, 50 / rownum * 0.8)
+  rowcex<-min(0.8, 50 / rownum * 0.8)
   axis(4,1:rownum,labels=rownames(scaledmatrix_reorder),las=2,tick=F,cex.axis=rowcex)
   mtext(clustertext,side=1,line=1,at=colnum/2,cex=1.5)
   
@@ -155,7 +157,7 @@ Plotdiff_Celltype<-function(testdata, ref.expr, clustertext){
       par(xaxs="i")
       par(yaxs="i")
       image(1:colnum,1:rownum,t(cors_in[hc$order,rhc$order]),col=colorRampPalette(c("gray","white","red"))(100),axes=F) 
-      rowcex<-max(0.8, 50 / rownum * 0.8)
+      rowcex<-min(0.6, 50 / rownum * 0.6)
       axis(4,1:rownum,labels=rownames(cors_in),las=2,tick=F,cex.axis=rowcex)
       mtext(clustertext,side=1,line=1,at=colnum/2,cex=1.5)
       par(mar=c(0,1,1,10))
@@ -184,7 +186,8 @@ Plotdiff_Celltype<-function(testdata, ref.expr, clustertext){
       par(xaxs="i")
       par(yaxs="i")
       image(1:colnum,1:rownum,t(t(cors_in[,rhc$order])),col=colorRampPalette(c("gray","white","red"))(100),axes=F,xlab="",ylab="") 
-      axis(4,1:rownum,labels=rownames(cors_in),las=2,tick=F,cex.axis=0.6)
+      rowcex<-min(0.6, 50 / rownum * 0.6)
+      axis(4,1:rownum,labels=rownames(cors_in),las=2,tick=F,cex.axis=rowcex)
       mtext(clustertext,side=1,line=1,at=colnum/2,cex=1.5)
       par(mar=c(0,1,1,10))
       plot(as.dendrogram(rhc),axes=F,leaflab="none")
