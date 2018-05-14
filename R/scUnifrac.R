@@ -1,8 +1,12 @@
-doReport<-function(plotData, outputFile, outputPdf=F){
+doReport<-function(plotData, outputFile, outputPdf=F, htmlForPrint=F){
   if(outputPdf){
     reportRmd <- system.file("report/scUnifracReportPdf.Rmd", package="scUnifrac")
   }else{
-    reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
+    if(htmlForPrint){
+      reportRmd <- system.file("report/scUnifracReportPrint.Rmd", package="scUnifrac")
+    }else{
+      reportRmd <- system.file("report/scUnifracReport.Rmd", package="scUnifrac")
+    }
   }
 
   reportContentRmd <- system.file("report/scUnifracReportContent.Rmd", package="scUnifrac")
@@ -26,7 +30,7 @@ doReport<-function(plotData, outputFile, outputPdf=F){
   }
 }
 
-scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE){
+scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE, htmlForPrint=FALSE){
   if(cache){
     plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
@@ -34,14 +38,14 @@ scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, s
   }
   
   if(report){
-	  doReport(plotData, outputFile, outputPdf)
+	  doReport(plotData, outputFile, outputPdf, htmlForPrint)
   }
   
   return(list(distance=plotData$distance,
               pvalue=plotData$pvalue))
 }
 
-scUnifrac<-function(outputFile, data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE){
+scUnifrac<-function(outputFile, data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE, htmlForPrint=FALSE){
   if(cache){
     plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
@@ -49,7 +53,7 @@ scUnifrac<-function(outputFile, data1, sampleName1, data2, sampleName2, ref.expr
   }
 
   if(report){
-    doReport(plotData, outputFile, outputPdf)
+    doReport(plotData, outputFile, outputPdf, htmlForPrint)
   }
   
   return(list(distance=plotData$distance,
