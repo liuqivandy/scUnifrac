@@ -14,6 +14,10 @@ scUnifrac is to quantify cell subpopulation diversity between two single-cell tr
 
 # Download and installation
 
+In order to generate report in either html or pdf format, you will need to [install MikTex and pandoc](http://rprogramming.net/create-html-or-pdf-files-with-r-knitr-miktex-and-pandoc/) first. 
+
+
+
 You need to install some bioconductor required libraries first:
 
 	source("https://bioconductor.org/biocLite.R")
