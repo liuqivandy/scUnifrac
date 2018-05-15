@@ -1,7 +1,9 @@
 ---
 title: "scUnifrac Report"
 output: 
-  rmdformats::html_docco
+  html_document:
+    toc: true
+    toc_depth: 2
 params:
   data: plotData
   outFile: outputFile
