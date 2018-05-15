@@ -82,7 +82,7 @@ scUnifracFromFile<-function(sampleFile1, sampleName1="S1", sampleFile2, sampleNa
 #' 
 #' test two samples with similar populations
 #' ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
-#'result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
+#' result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
 #' 
 #' @import 
 #' 
