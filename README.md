@@ -22,6 +22,10 @@ Then you need to install bioconductor library limma:
 
 	source("https://bioconductor.org/biocLite.R")
 	biocLite("limma")
+
+Install devtools package if it is not installed:
+
+	install.packages("devtools")
 	
 Finally you can install scUnifrac by:
 
