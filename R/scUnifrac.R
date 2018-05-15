@@ -30,7 +30,7 @@ doReport<-function(plotData, outputFile, outputPdf=F, htmlForPrint=F){
   }
 }
 
-scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE, htmlForPrint=FALSE){
+scUnifracFromFile<-function(sampleFile1, sampleName1="S1", sampleFile2, sampleName2="S2", refExprFile=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html", cache=TRUE, outputPdf=FALSE, htmlForPrint=TRUE){
   if(cache){
     plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
@@ -49,7 +49,7 @@ scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, s
 #' 
 #' @description Quantify cell population diversity between two single cell RNA-seq datasets
 
-#' @param outputFile a character string giving the name of the report; 
+#' @param outputFile a character string giving the name of the report;(default: "scUnifrac_report.html") 
 #' @param data1 matrix; the data matrix of the first dataset, row is the gene symbol, the column is the cell id 
 #' @param sampleName1 a character string giving the name of the first dataset; (default: "S1")
 #' @param data2 matrix; the data matrix of the second dataset, row is the gene symbol, the column is the cell id; data1 and data1 should have the same gene symbols
@@ -74,11 +74,11 @@ scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, s
 #' load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
 #' load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
 #' 
-#' result<-scUnifrac("scUnifrac_report.html", data1=colon1, data2=pan1)  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+#' result<-scUnifrac( data1=colon1, data2=pan1)  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
 #' result
 #' #load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. The atlas is used as a reference to predict cell types of data1 and data2
 #' load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
-#' result<-scUnifrac("scUnifrac_report.html", data1=colon1, data2=pan1,ref.expr=ref.expr) #the report includes the predicted cell types of each cell in each differential subpopulation between data1 and data2
+#' result<-scUnifrac( data1=colon1, data2=pan1,ref.expr=ref.expr, outputFile="scUnifrac_report.html") #the report includes the predicted cell types of each cell in each differential subpopulation between data1 and data2
 #' 
 #' test two samples with similar populations
 #' ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
@@ -89,7 +89,7 @@ scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, s
 #' 
 #' @export
 
-scUnifrac<-function(outputFile, data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cache=TRUE, outputPdf=FALSE, htmlForPrint=TRUE){
+scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html",cache=TRUE, outputPdf=FALSE, htmlForPrint=TRUE){
   if(cache){
     plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
