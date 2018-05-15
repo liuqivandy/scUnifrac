@@ -49,7 +49,7 @@ scUnifracFromFile<-function(outputFile, sampleFile1, sampleName1, sampleFile2, s
 #' 
 #' @description Quantify cell population diversity between two single cell RNA-seq datasets
 
-#' @param outputFile a character string giving the name of the file; 
+#' @param outputFile a character string giving the name of the report; 
 #' @param data1 matrix; the data matrix of the first dataset, row is the gene symbol, the column is the cell id 
 #' @param sampleName1 a character string giving the name of the first dataset; (default: "S1")
 #' @param data2 matrix; the data matrix of the second dataset, row is the gene symbol, the column is the cell id; data1 and data1 should have the same gene symbols
