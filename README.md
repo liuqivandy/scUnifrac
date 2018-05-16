@@ -46,7 +46,7 @@ After installing scUnifrac, use the following code to run a simple example
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
 	result<-scUnifrac(data1=colon1,data2=pan1,ref.expr=ref.expr,report=T)
 	
-	#run scUnifrac on two identical samples
+	#run scUnifrac on two similar samples
 	ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 	result<-scUnifrac(data1=colon1[,ind],data2=colon1[,-ind],report=F)
 	
