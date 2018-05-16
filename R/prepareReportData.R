@@ -62,7 +62,7 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
 }  
   
 prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
-  if(missing(ref.expr) || is.na(ref.expr)){
+  if(missing(ref.expr) ){
     ref.expr<-NULL
   }
   
