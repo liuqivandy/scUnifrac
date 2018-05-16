@@ -18,19 +18,10 @@ scUnifrac is to quantify cell subpopulation diversity between two single-cell tr
 
 <br>
 
-Then you need to install bioconductor library limma:
+You can install scUnifrac by:
 
 	source("https://bioconductor.org/biocLite.R")
-	biocLite("limma")
-
-Install devtools package if it is not installed:
-
-	install.packages("devtools")
-	
-Finally you can install scUnifrac by:
-
-	library(devtools)
-	devtools::install_github("liuqivandy/scUnifrac")
+	biocLite("liuqivandy/scUnifrac")
   
 <a name="example"/>
 
