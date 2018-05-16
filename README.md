@@ -3,7 +3,7 @@ scUnifrac
 * [Introduction](#introduction)
 * [Installation](#installation)
 * [Usage](#example)
-* [Report example] (https://rawgit.com/wiki/liuqivandy/scUnifrac/scUnifrac_colon_pan.print.html)
+* [Report example](https://rawgit.com/wiki/liuqivandy/scUnifrac/scUnifrac_colon_pan.print.html)
 
 <a name="introduction"/>
 
