@@ -3,6 +3,7 @@ scUnifrac
 * [Introduction](#introduction)
 * [Installation](#installation)
 * [Usage](#example)
+* [Report example] (https://rawgit.com/wiki/liuqivandy/scUnifrac/scUnifrac_colon_pan.print.html)
 
 <a name="introduction"/>
 
@@ -48,6 +49,5 @@ After installing scUnifrac, use the following code to run a simple example
 	#run scUnifrac on two identical samples
 	ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 	result<-scUnifrac(data1=colon1[,ind],data2=colon1[,-ind],report=F)
-	
 	
 
