@@ -6,8 +6,7 @@
 \usage{
 scUnifrac(data1, sampleName1 = "S1", data2, sampleName2 = "S2",
   ref.expr = NULL, genenum = 500, ncluster = 10, nDim = 4,
-  normalize = T, report = T, outputFile = "scUnifrac_report.html",
-  cache = FALSE, outputPdf = FALSE, htmlForPrint = TRUE)
+  normalize = T, report = T, outputFile = "scUnifrac_report.html")
 }
 \arguments{
 \item{data1}{matrix; the data matrix of the first dataset, row is the gene symbol, the column is the cell id}
@@ -31,12 +30,6 @@ scUnifrac(data1, sampleName1 = "S1", data2, sampleName2 = "S2",
 \item{report}{logical;  Indicate whether to generate a report (default: TRUE); if set to FALSE, scUnifrac will not generate the report but calculate the distance and the pvalue; set to FALSE, when users have more than two samples to compare and only want to calculate the pairwise distance}
 
 \item{outputFile}{a character string giving the name of the report;(default: "scUnifrac_report.html")}
-
-\item{cache}{logical;  (default: TRUE)}
-
-\item{outputPdf}{logical; Indicate whether generate the report in PDF format. (default:FALSE). Note that when set to TRUE, need to install MikTex and pandoc.}
-
-\item{htmlForPrint}{logical; Indicate whether to generate the report in html format ready for print. (default: TRUE)}
 }
 \value{
 List with the following elements:
@@ -47,19 +40,19 @@ List with the following elements:
 Quantify cell population diversity between two single cell RNA-seq datasets
 }
 \examples{
-library(scUnifrac)  
-#load the two example datasets 
-load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
-load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
+#library(scUnifrac)  
+##load the two example datasets 
+#load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
+#load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
 
-result<-scUnifrac( data1=colon1, data2=pan1)  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
-result
-#load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. The atlas is used as a reference to predict cell types of data1 and data2
-load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
-result<-scUnifrac( data1=colon1, data2=pan1,ref.expr=ref.expr, outputFile="scUnifrac_report.html") #the report includes the predicted cell types of each cell in each differential subpopulation between data1 and data2
+#result<-scUnifrac( data1=colon1, data2=pan1)  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+#result
+##load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. The atlas is used as a reference to predict cell types of data1 and data2
+#load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
+#result<-scUnifrac( data1=colon1, data2=pan1,ref.expr=ref.expr, outputFile="scUnifrac_report.html") #the report includes the predicted cell types of each cell in each differential subpopulation between data1 and data2
 
-test two samples with similar populations
-ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
-result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
+##test two samples with similar populations
+#ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
+#result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
 
 }
