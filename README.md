@@ -8,7 +8,8 @@ scUnifrac
 
 # Introduction
 
-scUnifrac is to quantify cell subpopulation diversity between two single-cell transcriptome profiles, which calculates the distance, estimates the statistical significance of the distance, identifies the subpopulations that are significant different between two profiles, finds genes that mark subpopulations, and predicts cell types of subpopulations. If two single-cell RNA-seq profiles have identical cell subpopulation structures (the same subpopulations with the same proportion), the distance is zero, whereas, the distance is one if completely different subpopulations.In addition to return the distance and the pvalue, scUnifrac will generate a report including figures illustrating subpopulation structure, marker genes and predicted cell types in each subpopulation. 
+scUnifrac is to quantify cell subpopulation diversity between two single-cell transcriptome profiles, which calculates the distance, estimates the statistical significance of the distance, identifies the subpopulations that are significant different between two profiles, finds genes that mark subpopulations, and predicts cell types of subpopulations. If two single-cell RNA-seq profiles have identical cell subpopulation structures (the same subpopulations with the same proportion), the distance is zero, whereas, the distance is one if completely different subpopulations.
+Besides calculating the distance and the pvalue, scUnifrac will generate a report including figures illustrating subpopulation structure, marker genes and predicted cell types in each subpopulation. 
 
 <a name="installation"/>
 
@@ -34,14 +35,14 @@ After installing scUnifrac, use the following code to run a simple example
 	load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
 	load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
 	
-	##run scUnifrac on the two example datasets
-	result<-scUnifrac(data1=colon1,data2=pan1)
+	##run scUnifrac on the two example datasets,don't generate the report
+	result<-scUnifrac(data1=colon1,data2=pan1,report=F)
 	result
 	
-	##run scUnifrac, use a reference datasets to predict cell types
+	##run scUnifrac, use a reference datasets to predict cell types and generate a report in the work directory
 	#load Mouse cell atlas [Han et al., 2018, Cell 172, 1091–1107]. The atlas is used as a reference to predict cell types
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
-	result<-scUnifrac(data1=colon1,data2=pan1,ref.expr=ref.expr)
+	result<-scUnifrac(data1=colon1,data2=pan1,ref.expr=ref.expr,report=T)
 	
 	#run scUnifrac on two identical samples
 	ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
