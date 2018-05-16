@@ -39,3 +39,8 @@ vignettes/*.pdf
 /*.rdata
 /*.table
 /.Rbuildignore
+/vignettes/scUnifrac-concordance.tex
+/vignettes/*.log
+/vignettes/*.gz
+/vignettes/*.tex
+/vignettes/*.toc

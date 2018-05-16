@@ -1,5 +1,4 @@
 
-
 Diff_population<-function(otu.tab, tree){
   
   otu.tab <- as.matrix(otu.tab)
@@ -37,30 +36,6 @@ Diff_population<-function(otu.tab, tree){
   return(paste0(cachePrefix, "_scUnifrac.rdata"))
 }
 
-prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){
-  saveCache<-!missing(cachePrefix)
-
-  if(saveCache){
-    cacheFile = .getCacheFile(cachePrefix)
-    if(file.exists(cacheFile)){
-      cat("Loading from cache file", cacheFile, " ...\n")
-      load(cacheFile)
-      return(plotData)
-    } 
-  }
-  if(!missing(refExprFile) & !is.null(refExprFile)){
-    ref.expr<-read.csv(refExprFile, row.names=1, check.names=F)
-  }else{
-    ref.expr<-NULL
-  }
-  data1<-read.csv(sampleFile1, row.names=1, check.names=F)
-  data2<-read.csv(sampleFile2, row.names=1, check.names=F)
-  
-  plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix)
-
-  return(plotData)
-}  
-  
 prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
   if(missing(ref.expr) ){
     ref.expr<-NULL

@@ -30,21 +30,6 @@ doReport<-function(plotData, outputFile, outputPdf=F, htmlForPrint=F){
   }
 }
 
-scUnifracFromFile<-function(sampleFile1, sampleName1="S1", sampleFile2, sampleName2="S2", refExprFile=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html", cache=TRUE, outputPdf=FALSE, htmlForPrint=TRUE){
-  if(cache){
-    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
-  }else{
-    plotData<-prepareReportDataFromFile(sampleFile1, sampleName1, sampleFile2, sampleName2, refExprFile, genenum, ncluster, nDim, normalize, report)
-  }
-  
-  if(report){
-	  doReport(plotData, outputFile, outputPdf, htmlForPrint)
-  }
-  
-  return(list(distance=plotData$distance,
-              pvalue=plotData$pvalue))
-}
-
 #' scUnifrac 
 #' 
 #' @description Quantify cell population diversity between two single cell RNA-seq datasets
@@ -84,12 +69,12 @@ scUnifracFromFile<-function(sampleFile1, sampleName1="S1", sampleFile2, sampleNa
 #' ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 #' result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
 #' 
-#' @import 
-#' 
+#' @import biocView::limma ape permute GUniFrac Rtsne R.utils knitr kableExtra rmdformats statmod
+#' @importFrom devtools session_info
 #' 
 #' @export
 
-scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html",cache=TRUE, outputPdf=FALSE, htmlForPrint=TRUE){
+scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html",cache=FALSE, outputPdf=FALSE, htmlForPrint=TRUE){
   if(cache){
     plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report, cachePrefix=outputFile)
   }else{
