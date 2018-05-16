@@ -36,7 +36,7 @@ Diff_population<-function(otu.tab, tree){
   return(paste0(cachePrefix, "_scUnifrac.rdata"))
 }
 
-prepareReportData<-function(data1, sampleName1, data2, sampleName2, ref.expr, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
+prepareReportData<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
   if(missing(ref.expr) ){
     ref.expr<-NULL
   }
