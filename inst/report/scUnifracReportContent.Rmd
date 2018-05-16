@@ -14,7 +14,7 @@ getHeatmapHeight<-function(hdata){
   max(10, nrow(hdata) / 10)
 }
 
-hasCellTypes<-!is.null(plotData$ref.expr) & !is.na(plotData$ref.expr)
+hasCellTypes<-!is.null(plotData$ref.expr) 
 
 ```
 
