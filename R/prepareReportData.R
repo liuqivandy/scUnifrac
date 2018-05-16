@@ -48,7 +48,7 @@ prepareReportDataFromFile<-function(sampleFile1, sampleName1, sampleFile2, sampl
       return(plotData)
     } 
   }
-  if(!missing(refExprFile) & !is.na(refExprFile) & !is.null(refExprFile)){
+  if(!missing(refExprFile) & !is.null(refExprFile)){
     ref.expr<-read.csv(refExprFile, row.names=1, check.names=F)
   }else{
     ref.expr<-NULL
