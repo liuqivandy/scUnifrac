@@ -4,7 +4,7 @@ Date: 2018-05-16
 Title: a package for quantitative assessment of cell population diversity in single-cell landscapes
 Author: Qi Liu, Charles A. Herring, Quanhu Sheng, Jie Ping, Alan J. Simmons, Bob Chen, Amrita Banerjee, Guoqiang Gu, Robert J. Coffey, Yu Shyr, Ken S. Lau
 Maintainer: "Quanhu SHENG" <shengqh@gmail.com>
-Depends: biocViews:limma, ape, permute, GUniFrac, Rtsne, R.utils, knitr, kableExtra, devtools, rmdformats, statmod
+Depends: limma, ape, permute, GUniFrac, Rtsne, R.utils, knitr, kableExtra, devtools, rmdformats, statmod
 Description: Quantify cell subpopulation diversity between two single-cell transcriptome profiles
 License: GPL (>= 2)
 VignetteBuilder: knitr
