@@ -69,7 +69,7 @@ doReport<-function(plotData, outputFile, outputPdf=F, htmlForPrint=F){
 #' ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 #' result<-scUnifrac("scUnifrac_report.html", data1=colon1[,ind], data2=colon1[,-ind],ref.expr=ref.expr)
 #' 
-#' @import biocView::limma ape permute GUniFrac Rtsne R.utils knitr kableExtra rmdformats statmod
+#' @import limma ape permute GUniFrac Rtsne R.utils knitr kableExtra rmdformats statmod
 #' @importFrom devtools session_info
 #' 
 #' @export
