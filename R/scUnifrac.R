@@ -72,3 +72,126 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
   return(list(distance=plotData$distance,
               pvalue=plotData$pvalue))
 }
+
+
+#' scUnifrac_multi 
+#' 
+#' @description Quantify cell population diversity among single cell RNA-seq datasets (more than or equal to two datasets)
+
+
+#' @param dataall matrix; the combined data matrix of all datasets, row is the gene symbol, the column is the cell id 
+#' @param group a vector; giving the sample id/name to which each cell belongs to
+#' @param genenum integer; Number of highly variable genes to build the cell population structure (default: 500)
+#' @param ncluster integer; Number of clusters to divide cells  (default: 10)
+#' @param nDim integer; Number of PCA dimensions to build the cell population structure  (default: 4)
+#' @param normalize logical; Indicate whether normalize data1 and data2 (default: TRUE, normalize to the total count and log2 transform)
+
+#' @return List with the following elements:
+#' \item{distance}{The pairwise distance matrix of cell population diversity among single-cell RNA-seq datasets}
+#' \item{p-value}{The statistical signficance matrix of the distance}
+
+#' @examples
+#' #library(scUnifrac)  
+#' ##load the two example datasets 
+#' #load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
+#' #load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
+#' ##split the colon data into two datasets
+#' #colon1_1<-colon1[,1:500]
+#' #colon1_2<-colon1[,501:1000]
+#' #result<-scUnifrac_multi(dataall=cbind(colon1_1,colon1_2,pan1),group=c(rep("c1",500),rep("c2",500),rep("pan",ncol(pan1))))  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+#' #result
+
+#' @import limma ape permute GUniFrac Rtsne R.utils knitr kableExtra rmdformats statmod
+#' @importFrom devtools session_info
+#' 
+#' @export
+
+scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize=T){
+    
+    ncell<-ncol(dataall)
+    if (is.null(colnames(dataall))) {colnames(dataall)<-1:ncell}
+    if (is.null(group) ) {stop('group information should be provided')}
+    if (length(group)!=ncell){stop('the length of group does not match the number of cells')}
+    nsample<-length(unique(group))
+    if (nsample<2) {stop('should have greater than or equal to two single cell samples')}
+
+    if (normalize){
+        sumdata<-apply(dataall,2,sum)
+        #normalize the data
+        normdata<-t(log2(t(dataall)/sumdata*median(sumdata)+1))
+    } else normdata<-dataall
+    #find the highly variable genes
+    var_data<-apply(normdata,1,var)
+    mean_data<-apply(normdata,1,mean)
+    
+    reorderid<-order(var_data,decreasing=T)
+    
+    hvgdata<-normdata[reorderid[1:genenum],]
+    
+    ##perform PCA, keep the nDim
+    pcaresult<-prcomp(t(hvgdata))
+    hvgdata_pca<-pcaresult$x[,1:nDim]
+    
+    
+    
+    
+    
+    ##build the hierichical cluster
+    
+    hc<-hclust(dist(hvgdata_pca),"ave")
+    memb <- cutree(hc, k = ncluster)
+    
+    
+    ##generate the table
+    count.table<-table(group,memb)
+    
+    
+    
+    
+    cent <- NULL
+    
+    
+    for(k in 1:ncluster){
+        cent <- rbind(cent, colMeans(hvgdata_pca[memb == k, , drop = FALSE]))
+    }
+    
+    hc1 <- hclust(dist(cent), method = "ave", members = table(memb))
+    
+    tree1<-as.phylo(hc1)
+    
+    ##calculate the distance
+    unifracs <- GUniFrac(count.table, tree1, alpha=c(0, 0.5, 1))$unifracs
+    dist.obs<-unifracs[, , "d_1"]
+    rownames(dist.obs)<-colnames(dist.obs)<-rownames(count.table)
+    
+    ##permuate the samples, calculate the pvalue
+    nperm=1000
+    control <- how(nperm = nperm, within = Within(type = "free"))
+    t.permu <- numeric(length = control$nperm) +1
+    dis.permu.array<-array(0,dim=c(nsample,nsample,nperm))
+    for(numPer in seq_along(t.permu)) {
+        
+        want <- permute(numPer, ncell, control)
+        group.permu<-group[want]
+        
+        
+        ## calculate distance
+    
+    
+       
+        count.table.perm<-table(group.permu,memb)
+        colnames(count.table.perm)<-1:ncluster
+        
+        unifracs.perm <- GUniFrac(count.table.perm, tree1, alpha=c(0, 0.5, 1))$unifracs
+        
+       dis.permu.array[,,numPer]<- unifracs.perm[, , "d_1"]
+    }
+    
+    pvalue<-matrix(apply(apply(dis.permu.array,3,">=",dist.obs),1,sum),nrow=nsample,byrow=F)/nperm
+    rownames(pvalue)<-colnames(pvalue)<-rownames(count.table)
+
+    ##### function output####################
+    return(list(dis=dist.obs, counttable=count.table, pvalue=pvalue))
+}
+
+
