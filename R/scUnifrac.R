@@ -76,7 +76,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 
 #' scUnifrac_multi 
 #' 
-#' @description Quantify cell population diversity among single cell RNA-seq datasets (more than or equal to two datasets)
+#' @description Quantify cell population diversity among single cell RNA-seq (>= two datasets)
 
 
 #' @param dataall matrix; the combined data matrix of all datasets, row is the gene symbol, the column is the cell id 
@@ -123,42 +123,26 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
     #find the highly variable genes
     var_data<-apply(normdata,1,var)
     mean_data<-apply(normdata,1,mean)
-    
     reorderid<-order(var_data,decreasing=T)
-    
     hvgdata<-normdata[reorderid[1:genenum],]
     
     ##perform PCA, keep the nDim
     pcaresult<-prcomp(t(hvgdata))
     hvgdata_pca<-pcaresult$x[,1:nDim]
-    
-    
-    
-    
-    
     ##build the hierichical cluster
     
     hc<-hclust(dist(hvgdata_pca),"ave")
     memb <- cutree(hc, k = ncluster)
-    
-    
+       
     ##generate the table
     count.table<-table(group,memb)
-    
-    
-    
-    
     cent <- NULL
-    
-    
+     
     for(k in 1:ncluster){
         cent <- rbind(cent, colMeans(hvgdata_pca[memb == k, , drop = FALSE]))
     }
-    
     hc1 <- hclust(dist(cent), method = "ave", members = table(memb))
-    
     tree1<-as.phylo(hc1)
-    
     ##calculate the distance
     unifracs <- GUniFrac(count.table, tree1, alpha=c(0, 0.5, 1))$unifracs
     dist.obs<-unifracs[, , "d_1"]
@@ -174,17 +158,11 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
         want <- permute(numPer, ncell, control)
         group.permu<-group[want]
         
-        
         ## calculate distance
-    
-    
-       
         count.table.perm<-table(group.permu,memb)
         colnames(count.table.perm)<-1:ncluster
-        
         unifracs.perm <- GUniFrac(count.table.perm, tree1, alpha=c(0, 0.5, 1))$unifracs
-        
-       dis.permu.array[,,numPer]<- unifracs.perm[, , "d_1"]
+        dis.permu.array[,,numPer]<- unifracs.perm[, , "d_1"]
     }
     
     pvalue<-matrix(apply(apply(dis.permu.array,3,">=",dist.obs),1,sum),nrow=nsample,byrow=F)/nperm
