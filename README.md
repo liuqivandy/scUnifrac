@@ -30,7 +30,7 @@ To install scUnifrac, use
 
 # Usage
 
-After installing scUnifrac, use the following code to run a simple example
+After installing scUnifrac, use the following code to run examples
 
 	library(scUnifrac)
 	#load two example datasets, one is from mouse colon, the other is from mouse pancreas
@@ -54,5 +54,5 @@ After installing scUnifrac, use the following code to run a simple example
 	#generate a simulated dataset including three samples
 	combineddata<-cbind(colon1[,1:500],pan1[,1:500],colon1[,501:1000])
 	group<-c(rep("colon1_1",500),rep("pan1",500),rep("colon1_2",500))
-        result<-scUnifrac_multi(dataall=combineddata,group=group)
+	result<-scUnifrac_multi(dataall=combineddata,group=group)
 	
