@@ -169,7 +169,7 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
     rownames(pvalue)<-colnames(pvalue)<-rownames(count.table)
 
     ##### function output####################
-    return(list(dis=dist.obs, counttable=count.table, pvalue=pvalue))
+    return(list(distance=dist.obs, counttable=count.table, pvalue=pvalue))
 }
 
 
