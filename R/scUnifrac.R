@@ -46,12 +46,15 @@ doReport<-function(plotData, outputFile){
 #' ##load the two example datasets 
 #' load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
 #' load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
-#' 
-#' result<-scUnifrac( data1=colon1, data2=pan1)  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+
+#' ##this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+#' result<-scUnifrac( data1=colon1, data2=pan1)  
 #' result
+
 #' ##load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. The atlas is used as a reference to predict cell types of data1 and data2
 #' load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
-#' result<-scUnifrac( data1=colon1, data2=pan1,ref.expr=ref.expr, outputFile="scUnifrac_report.html") #the report includes the predicted cell types of each cell in each differential subpopulation between data1 and data2
+#' ##the report also includes the predicted cell types by mapping each cell to the reference 
+#' result<-scUnifrac( data1=colon1, data2=pan1,ref.expr=ref.expr, outputFile="scUnifrac_report.html") 
 #' 
 #' ##test two samples with similar populations
 #' ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
@@ -98,7 +101,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 #' ##split the colon data into two datasets
 #' colon1_1<-colon1[,1:500]
 #' colon1_2<-colon1[,501:1000]
-#' result<-scUnifrac_multi(dataall=cbind(colon1_1,colon1_2,pan1),group=c(rep("c1",500),rep("c2",500),rep("pan",ncol(pan1))))  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
+#' result<-scUnifrac_multi(dataall=cbind(colon1_1,colon1_2,pan1),group=c(rep("c1",500),rep("c2",500),rep("pan",ncol(pan1))))  
 #' result
 
 #' @import limma ape permute GUniFrac Rtsne R.utils knitr kableExtra rmdformats statmod
