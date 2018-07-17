@@ -51,7 +51,7 @@ After installing scUnifrac, use the following code to run examples
 	result<-scUnifrac(data1=colon1[,ind],data2=colon1[,-ind],report=F)
 	
 	#run scUnifrac_multi to calculate pairwise distance between multiple (>=2) scRNA-seq samples
-	#generate a simulated dataset including three samples
+	#generate a simulated dataset including three samples, two from colon, one from pancreas
 	combineddata<-cbind(colon1[,1:500],pan1[,1:500],colon1[,501:1000])
 	group<-c(rep("colon1_1",500),rep("pan1",500),rep("colon1_2",500))
 	result<-scUnifrac_multi(dataall=combineddata,group=group)
