@@ -80,7 +80,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 
 #' scUnifrac_multi 
 #' 
-#' @description Quantify cell population diversity among single cell RNA-seq (>= two datasets)
+#' @description Quantify pairwise cell population diversity between multiple (>=2) single cell RNA-seq datasets
 
 
 #' @param dataall matrix; the combined data matrix of all datasets, row is the gene symbol, the column is the cell id 
