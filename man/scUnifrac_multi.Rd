@@ -23,19 +23,20 @@ scUnifrac_multi(dataall, group, genenum = 500, ncluster = 10, nDim = 4,
 \value{
 List with the following elements:
 \item{distance}{The pairwise distance matrix of cell population diversity among single-cell RNA-seq datasets}
-\item{p-value}{The statistical signficance matrix of the distance}
+\item{pvalue}{The statistical signficance matrix of the distance}
 }
 \description{
-Quantify cell population diversity among single cell RNA-seq (>= two datasets)
+Quantify pairwise cell population diversity between multiple (>=2) single cell RNA-seq datasets
 }
 \examples{
-#library(scUnifrac)  
+library(scUnifrac)  
 ##load the two example datasets 
-#load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
-#load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
-##split the colon data into two datasets
-#colon1_1<-colon1[,1:500]
-#colon1_2<-colon1[,501:1000]
-#result<-scUnifrac_multi(dataall=cbind(colon1_1,colon1_2,pan1),group=c(rep("c1",500),rep("c2",500),rep("pan",ncol(pan1))))  #this function will return distance and pvalue between data1 and data2 and will generate a report in the work directory
-#result
+load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
+load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
+##generate two datasets from the colon data
+colon1_1<-colon1[,1:500]
+colon1_2<-colon1[,501:1000]
+## run scUnifrac_multi on three datasets, two from the colon, one from the pancreas
+result<-scUnifrac_multi(dataall=cbind(colon1_1,colon1_2,pan1),group=c(rep("c1",500),rep("c2",500),rep("pan",ncol(pan1))))  
+result
 }

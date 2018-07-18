@@ -1,6 +1,6 @@
 Package: scUnifrac
-Version: 0.9.5
-Date: 2018-07-17
+Version: 0.9.6
+Date: 2018-07-18
 Title: a package for quantitative assessment of cell population diversity in single-cell landscapes
 Author: Qi Liu, Charles A. Herring, Quanhu Sheng, Jie Ping, Alan J. Simmons, Bob Chen, Amrita Banerjee, Guoqiang Gu, Robert J. Coffey, Yu Shyr, Ken S. Lau
 Maintainer: "Quanhu SHENG" <shengqh@gmail.com>
