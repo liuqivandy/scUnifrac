@@ -30,9 +30,10 @@ To install scUnifrac, use
 
 # Usage
 
-After installing scUnifrac, use the following code to run examples
+After installing scUnifrac, use following codes to run examples
 
 	library(scUnifrac)
+	
 	#load two example datasets, one is from mouse colon, the other is from mouse pancreas
 	load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
 	load(system.file("extdata", "pan1.Rdata", package = "scUnifrac"))
@@ -41,7 +42,7 @@ After installing scUnifrac, use the following code to run examples
 	result<-scUnifrac(data1=colon1,data2=pan1,report=F)
 	result
 	
-	##run scUnifrac, use a reference datasets to predict cell types and generate a report in the work directory
+	## when run scUnifrac, use a reference datasets to predict cell types and generate a report in the work directory
 	#load Mouse cell atlas [Han et al., 2018, Cell 172, 1091–1107]. The atlas is used as a reference to predict cell types
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
 	result<-scUnifrac(data1=colon1,data2=pan1,ref.expr=ref.expr,report=T)
