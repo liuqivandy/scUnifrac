@@ -94,6 +94,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 #' \item{distance}{The pairwise distance matrix of cell population diversity among single-cell RNA-seq datasets}
 #' \item{pvalue}{The statistical signficance matrix of the distance}
 
+
 #' @examples
 #' library(scUnifrac)  
 #' ##load the two example datasets 
@@ -174,7 +175,7 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
     rownames(pvalue)<-colnames(pvalue)<-rownames(count.table)
 
     ##### function output####################
-    return(list(distance=dist.obs, counttable=count.table, pvalue=pvalue))
+    return(list(distance=dist.obs, counttable=count.table, pvalue=pvalue,phylo=tree1))
 }
 
 
