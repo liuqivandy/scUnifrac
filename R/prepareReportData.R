@@ -36,7 +36,7 @@ Diff_population<-function(otu.tab, tree){
   return(paste0(cachePrefix, "_scUnifrac.rdata"))
 }
 
-prepareReportData<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
+prepareReportData<-function(data1, sampleName1="S1", data2, sampleName2="S2", cluster=NULL, ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, cachePrefix){  
   if(missing(ref.expr) ){
     ref.expr<-NULL
   }
@@ -81,9 +81,15 @@ prepareReportData<-function(data1, sampleName1="S1", data2, sampleName2="S2", re
   pcaresult<-prcomp(t(hvgdata))
   hvgdata_pca<-pcaresult$x[,1:nDim]
   
+  if (is.null(cluster)){
   ##build the hierichical cluster 
-  hc<-hclust(dist(hvgdata_pca),"ave")
-  memb <- cutree(hc, k = ncluster)
+       hc<-hclust(dist(hvgdata_pca),"ave")
+       memb <- cutree(hc, k = ncluster)
+	  } else { if (length(cluster[[1]])!=nobs1 | length(cluster[[2]])!=nobs2)) 
+		      stop ('the length of cluster information should be equal to the cell numbers')
+		   memb<-c(cluster[[1]],cluster[[2]])
+	  }
+	  
   
   ##generate the table 
   count.table<-matrix(0,nrow=2,ncol=ncluster)
