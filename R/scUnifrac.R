@@ -206,8 +206,9 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
 
 scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=FALSE){
     if (normalize){
-       
-     
+       sumqdata<-apply(qdata,2,sum)
+      #normalize the data    
+       normdata<-t(log2(t(qdata)/sumdata*10000+1))     
      }
     commongene<-intersect(rownames(qdata),rownames(ref.expr))
   ##require more than 300 genes in common to predict cell types
