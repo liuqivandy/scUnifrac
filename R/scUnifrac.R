@@ -178,4 +178,106 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
     return(list(distance=dist.obs, counttable=count.table, pvalue=pvalue,phylo=tree1))
 }
 
+#' scUnifrac_predictCelltype 
+#' 
+#' @description blast query cells against reference datasets to predict cell types
 
+
+#' @param qdata matrix; the gene-cell matrix of query cells, row is the gene symbol, the column is the cell id
+#' @param ref.expr matrix; the data matrix of the reference cell atlas;
+#' @param anntext string; the annotation of query cells (default: "Query")
+#' @param normalize logical; If TRUE, qdata will be normalized and log2transformed; (default: FALSE);if qdata is count table, set normalize=TRUE; 
+
+#' @return List with the following elements:
+
+
+#' @examples
+#' library(scUnifrac)  
+#' load one dataset 
+#' load(system.file("extdata", "colon1.Rdata", package = "scUnifrac"))
+#' ##load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. 
+#' load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
+
+## run scUnifrac_predictCelltype
+#' scUnifrac_predictCelltype(qdata=colon1, ref.expr=ref.expr,anntext="colon") 
+#' 
+#' 
+#' @export
+
+scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=FALSE){
+    if (normalize){
+       
+     
+     }
+    commongene<-intersect(rownames(qdata),rownames(ref.expr))
+  ##require more than 300 genes in common to predict cell types
+  if (length(commongene)>300){
+    tst.match <- qdata[commongene,]
+    ref.match<-ref.expr[commongene,]
+    
+    cors <- cor(ref.match,tst.match)
+    
+    cors_index <- apply(cors,2,function(x){return(order(x,decreasing=T)[1:3])})
+    cors_index <- sort(unique(as.integer(cors_index)))
+    scblast.result <- apply(cors,2,function(x) rownames(cors)[which.max(x)])
+    if (length(cors_index)>1){
+      
+      cors_in = cors[cors_index,]
+      
+      colnames(cors_in)<-colnames(testdata)
+      
+      rhc<-hclust(dist(t(cors_in)),method="ward.D2")
+      hc<-hclust(dist((cors_in)),method="ward.D2")
+      rownum<-nrow(cors_in)
+      colnum<-ncol(cors_in)
+      layout(matrix(c(4,2,3,1), 2, 2, byrow = TRUE),width=c(1,6),heights=c(1,6))
+      par(mar=c(3,1,1,10))
+      par(xaxs="i")
+      par(yaxs="i")
+      image(1:colnum,1:rownum,t(cors_in[hc$order,rhc$order]),col=colorRampPalette(c("gray","white","red"))(100),axes=F) 
+      rowcex<-min(0.6, 50 / rownum * 0.6)
+      axis(4,1:rownum,labels=rownames(cors_in)[hc$order],las=2,tick=F,cex.axis=rowcex)
+      mtext(anntext,side=1,line=1,at=colnum/2,cex=1.5)
+      par(mar=c(0,1,1,10))
+      plot(as.dendrogram(rhc),axes=F,leaflab="none")
+      par(mar=c(3,1,1,0))
+      plot(as.dendrogram(hc),horiz=T,axes=F,leaflab="none")
+      par(mar=c(2,1,2,1))
+      maxval<-round(max(cors_in),digits=1)
+      zval<-seq(0,maxval,0.1)
+      image(1:length(zval),1,matrix(zval,ncol=1),col= colorRampPalette(c("gray","white", "red"))(100),axes=F,xlab="",ylab="")
+      mtext("0",side=1,line=0.5,at=1,cex=0.8)
+      mtext(maxval,side=1,line=0.5,at=length(zval),cex=0.8)
+      
+      box(lty="solid",col="black")
+      
+    } else {
+      
+      cors_in=matrix(cors[cors_index,],nrow=1)
+      colnames(cors_in)<-colnames(testdata)	
+      rownames(cors_in)<-rownames(cors)[cors_index]		
+      rownum<-nrow(cors_in)
+      colnum<-ncol(cors_in)
+      rhc<-hclust(dist(t(cors_in)),method="ward.D2")
+      layout(matrix(c(3,2,0,1), 2, 2, byrow = TRUE),width=c(1,6),heights=c(1,6))
+      par(mar=c(3,1,1,10))
+      par(xaxs="i")
+      par(yaxs="i")
+      image(1:colnum,1:rownum,t(t(cors_in[,rhc$order])),col=colorRampPalette(c("gray","white","red"))(100),axes=F,xlab="",ylab="") 
+      rowcex<-min(0.6, 50 / rownum * 0.6)
+      axis(4,1:rownum,labels=rownames(cors_in),las=2,tick=F,cex.axis=rowcex)
+      mtext(anntext,side=1,line=1,at=colnum/2,cex=1.5)
+      par(mar=c(0,1,1,10))
+      plot(as.dendrogram(rhc),axes=F,leaflab="none")
+      
+      par(mar=c(2,1,2,1))
+      maxval<-round(max(cors_in),digits=1)
+      zval<-seq(0,maxval,0.1)
+      image(1:length(zval),1,matrix(zval,ncol=1),col= colorRampPalette(c("gray","white", "red"))(100),axes=F,xlab="",ylab="")
+      mtext("0",side=1,line=0.5,at=1,cex=0.8)
+      mtext(maxval,side=1,line=0.5,at=length(zval),cex=0.8)
+      
+      box(lty="solid",col="black")
+    }
+  }
+}
