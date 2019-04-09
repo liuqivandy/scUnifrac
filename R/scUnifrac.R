@@ -185,10 +185,10 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
 
 #' @param qdata matrix; the gene-cell matrix of query cells, row is the gene symbol, the column is the cell id
 #' @param ref.expr matrix; the data matrix of the reference cell atlas;
-#' @param anntext string; the annotation of query cells (default: "Query")
+#' @param anntext character; the annotation of query cells (default: "Query")
 #' @param normalize logical; If TRUE, qdata will be normalized and log2transformed; (default: FALSE);if qdata is raw count table, set normalize=TRUE; 
-
-#' @return List with the following elements:
+#' @param corcutoff double; the cutoff of correlation values to predict cell types; if one reference cell type has correlation values > corcutoff with query cells and ranked the top 3, report this cell type; (default: 0; report the top 3 most correlated cell types without the requirement of correlation values)
+#' @return the correlation values between query cells and the most correlated reference cell types with (cor>corcutoff):
 
 
 #' @examples
@@ -204,11 +204,11 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
 #' 
 #' @export
 
-scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=FALSE){
+scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=FALSE, corcutoff=0){
     if (normalize){
        sumqdata<-apply(qdata,2,sum)
       #normalize the data    
-       normdata<-t(log2(t(qdata)/sumdata*10000+1))     
+       normdata<-t(log2(t(qdata)/sumqdata*10000+1))     
      }
     commongene<-intersect(rownames(qdata),rownames(ref.expr))
   ##require more than 300 genes in common to predict cell types
@@ -218,14 +218,15 @@ scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=F
     
     cors <- cor(ref.match,tst.match)
     
-    cors_index <- apply(cors,2,function(x){return(order(x,decreasing=T)[1:3])})
+    cors_index <- unlist(apply(cors,2,function(x){cutoffind<-tail(sort(x),3)>corcutoff;return(order(x,decreasing=T)[1:3][cutoffind])}))
+    #cors_index <- (apply(cors,2,function(x){return(order(x,decreasing=T)[1:3])}))
     cors_index <- sort(unique(as.integer(cors_index)))
-    scblast.result <- apply(cors,2,function(x) rownames(cors)[which.max(x)])
+    #scblast.result <- apply(cors,2,function(x) rownames(cors)[which.max(x)])
     if (length(cors_index)>1){
       
       cors_in = cors[cors_index,]
       
-      colnames(cors_in)<-colnames(testdata)
+      colnames(cors_in)<-colnames(qdata)
       
       rhc<-hclust(dist(t(cors_in)),method="ward.D2")
       hc<-hclust(dist((cors_in)),method="ward.D2")
@@ -252,10 +253,10 @@ scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=F
       
       box(lty="solid",col="black")
       
-    } else {
+    } else if (length(cors_index)==1) {
       
       cors_in=matrix(cors[cors_index,],nrow=1)
-      colnames(cors_in)<-colnames(testdata)	
+      colnames(cors_in)<-colnames(qdata)	
       rownames(cors_in)<-rownames(cors)[cors_index]		
       rownum<-nrow(cors_in)
       colnum<-ncol(cors_in)
@@ -281,4 +282,5 @@ scUnifrac_predictCelltype<-function(qdata, ref.expr, anntext="Query",normalize=F
       box(lty="solid",col="black")
     }
   }
+   return(cors_in)
 }
