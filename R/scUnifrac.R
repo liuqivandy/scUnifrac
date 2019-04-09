@@ -186,7 +186,7 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
 #' @param qdata matrix; the gene-cell matrix of query cells, row is the gene symbol, the column is the cell id
 #' @param ref.expr matrix; the data matrix of the reference cell atlas;
 #' @param anntext string; the annotation of query cells (default: "Query")
-#' @param normalize logical; If TRUE, qdata will be normalized and log2transformed; (default: FALSE);if qdata is count table, set normalize=TRUE; 
+#' @param normalize logical; If TRUE, qdata will be normalized and log2transformed; (default: FALSE);if qdata is raw count table, set normalize=TRUE; 
 
 #' @return List with the following elements:
 
@@ -198,8 +198,8 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
 #' ##load the mouse cell altas from Han et al., 2018, Cell 172, 1091–1107. 
 #' load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
 
-## run scUnifrac_predictCelltype
-#' scUnifrac_predictCelltype(qdata=colon1, ref.expr=ref.expr,anntext="colon") 
+## run scUnifrac_predictCelltype for the 100 cells of colon1 dataset
+#' scUnifrac_predictCelltype(qdata=colon1[,1:100], ref.expr=ref.expr,anntext="colon",normalize=T) 
 #' 
 #' 
 #' @export
