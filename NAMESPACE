@@ -2,6 +2,7 @@
 
 export(scUnifrac)
 export(scUnifrac_multi)
+export(scUnifrac_predictCelltype)
 import(GUniFrac)
 import(R.utils)
 import(Rtsne)
