@@ -141,7 +141,7 @@ scUnifrac_multi<-function(dataall,group,cluster=NULL,genenum=500,ncluster=10,nDi
     if (is.null(cluster)){
           hc<-hclust(dist(hvgdata_pca),"ave")
           memb <- cutree(hc, k = ncluster)
-        } else { if (length(cluster)!=dim(data)[2]) 
+        } else { if (length(cluster)!=dim(dataall)[2]) 
                stop('the length of cluster should be equal to the cell numbers')
                  memb<-as.integer(as.factor(cluster))
                  ncluster<-length(unique(cluster))
