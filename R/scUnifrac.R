@@ -30,6 +30,7 @@ doReport<-function(plotData, outputFile){
 #' @param sampleName1 a character string giving the name of the first dataset; (default: "S1")
 #' @param data2 matrix; the data matrix of the second dataset, row is the gene symbol, the column is the cell id; data1 and data1 should have the same gene symbols
 #' @param sampleName2 a character string giving the name of the second dataset; (default: "S2")
+#' @param cluster a vector of cluster ID of each cell in both data1 and data2; (default: NULL); If NULL, hierarchical clustering will be used to assign cluster ID. 
 #' @param ref.expr matrix; the data matrix of the reference cell atlas; the ref.expr is used to predict the cell types of single cell from data1 and data2 (default: NULL)
 #' @param genenum integer; Number of highly variable genes to build the cell population structure (default: 500)
 #' @param ncluster integer; Number of clusters to divide cells  (default: 10)
@@ -66,8 +67,8 @@ doReport<-function(plotData, outputFile){
 #' 
 #' @export
 
-scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html"){
-  plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, ref.expr, genenum, ncluster, nDim, normalize, report)
+scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", cluster=NULL, ref.expr=NULL, genenum=500, ncluster=10, nDim=4, normalize=T, report=T, outputFile="scUnifrac_report.html"){
+  plotData<-prepareReportData(data1, sampleName1, data2, sampleName2, cluster, ref.expr, genenum, ncluster, nDim, normalize, report)
 
   if(report){
     doReport(plotData, outputFile)
@@ -85,6 +86,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 
 #' @param dataall matrix; the combined data matrix of all datasets, row is the gene symbol, the column is the cell id 
 #' @param group a vector; giving the sample id/name to which each cell belongs to
+#' @param cluster a vector of cluster ID of each cell belongs to; (default: NULL); If NULL, hierarchical clustering will be used to assign cluster ID.
 #' @param genenum integer; Number of highly variable genes to build the cell population structure (default: 500)
 #' @param ncluster integer; Number of clusters to divide cells  (default: 10)
 #' @param nDim integer; Number of PCA dimensions to build the cell population structure  (default: 4)
@@ -112,7 +114,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", ref.expr=N
 #' 
 #' @export
 
-scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize=T){
+scUnifrac_multi<-function(dataall,group,cluster=NULL,genenum=500,ncluster=10,nDim=4,normalize=T){
     
     ncell<-ncol(dataall)
     if (is.null(colnames(dataall))) {colnames(dataall)<-1:ncell}
@@ -136,9 +138,15 @@ scUnifrac_multi<-function(dataall,group,genenum=500,ncluster=10,nDim=4,normalize
     pcaresult<-prcomp(t(hvgdata))
     hvgdata_pca<-pcaresult$x[,1:nDim]
     ##build the hierichical cluster
-    
-    hc<-hclust(dist(hvgdata_pca),"ave")
-    memb <- cutree(hc, k = ncluster)
+    if (is.null(cluster)){
+          hc<-hclust(dist(hvgdata_pca),"ave")
+          memb <- cutree(hc, k = ncluster)
+        } else { if (length(cluster)!=dim(data)[2]) 
+               stop ('the length of cluster' should be equal to the cell numbers')
+                 memb<-as.integer(as.factor(cluster))
+                 ncluster<-length(unique(cluster))
+                }
+        
        
     ##generate the table
     count.table<-table(group,memb)
