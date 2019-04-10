@@ -51,9 +51,19 @@ After installing scUnifrac, use following codes to run examples
 	ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
 	result<-scUnifrac(data1=colon1[,ind],data2=colon1[,-ind],report=F)
 	
+	#run scUnifrac with the cluster information that user provides (e.g., cluster from other software)
+	ind<-sample(c(1:ncol(colon1)), ncol(colon1)/2)
+	clusterID<-sample(1:20, dim(colon1)[2],replace=T)
+	result<-scUnifrac(data1=colon1[,ind],data2=colon1[,-ind],cluster=clusterID, report=F)
+	
 	#run scUnifrac_multi to calculate pairwise distance between multiple (>=2) scRNA-seq samples
 	#generate a simulated dataset including three samples, two from colon, one from pancreas
 	combineddata<-cbind(colon1[,1:500],pan1[,1:500],colon1[,501:1000])
 	group<-c(rep("colon1_1",500),rep("pan1",500),rep("colon1_2",500))
 	result<-scUnifrac_multi(dataall=combineddata,group=group)
 	
+	#run scUnifrac_predictCelltype to predict cell types of query cells
+	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
+	preCell<-scUnifrac_predictCelltype(colon1[,1:500],ref.expr=ref.expr,normalize=T)
+	#only report cell types with correlation greater than 0.3 with at least one query cells
+	preCell<-scUnifrac_predictCelltype(colon1[,1:500],ref.expr=ref.expr,normalize=T,corcutoff=0.3)
