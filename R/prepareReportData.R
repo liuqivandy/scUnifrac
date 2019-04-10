@@ -85,9 +85,10 @@ prepareReportData<-function(data1, sampleName1="S1", data2, sampleName2="S2", cl
   ##build the hierichical cluster 
        hc<-hclust(dist(hvgdata_pca),"ave")
        memb <- cutree(hc, k = ncluster)
-	  } else { if (length(cluster[[1]])!=nobs1 | length(cluster[[2]])!=nobs2)) 
+	  } else { if (length(cluster)!=(nobs1+nobs2))) 
 		      stop ('the length of cluster information should be equal to the cell numbers')
-		   memb<-c(cluster[[1]],cluster[[2]])
+		   memb<-as.integer(as.factor(cluster))
+		   ncluster<-length(unique(cluster))
 	  }
 	  
   
