@@ -65,5 +65,5 @@ After installing scUnifrac, use following codes to run examples
 	#run scUnifrac_predictCelltype to predict cell types of query cells
 	load(system.file("extdata", "ref.expr.Rdata", package = "scUnifrac"))
 	preCell<-scUnifrac_predictCelltype(colon1[,1:500],ref.expr=ref.expr,normalize=T)
-	#only report cell types with correlation greater than 0.3 with at least one query cells
+	#only report cell types having correlation greater than 0.3 with at least one query cells
 	preCell<-scUnifrac_predictCelltype(colon1[,1:500],ref.expr=ref.expr,normalize=T,corcutoff=0.3)
