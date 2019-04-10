@@ -33,7 +33,7 @@ doReport<-function(plotData, outputFile){
 #' @param cluster a vector of cluster ID of each cell in both data1 and data2; (default: NULL); If NULL, hierarchical clustering will be used to assign cluster ID. 
 #' @param ref.expr matrix; the data matrix of the reference cell atlas; the ref.expr is used to predict the cell types of single cell from data1 and data2 (default: NULL)
 #' @param genenum integer; Number of highly variable genes to build the cell population structure (default: 500)
-#' @param ncluster integer; Number of clusters to divide cells  (default: 10)
+#' @param ncluster integer; Number of clusters to divide cells  (default: 10); The parameter is used only when cluster is NULL
 #' @param nDim integer; Number of PCA dimensions to build the cell population structure  (default: 4)
 #' @param normalize logical; Indicate whether normalize data1 and data2 (default: TRUE, normalize to the total count and log2 transform)
 #' @param report logical;  Indicate whether to generate a report (default: TRUE); if set to FALSE, scUnifrac will not generate the report but calculate the distance and the pvalue; set to FALSE, when users have more than two samples to compare and only want to calculate the pairwise distance
@@ -88,7 +88,7 @@ scUnifrac<-function(data1, sampleName1="S1", data2, sampleName2="S2", cluster=NU
 #' @param group a vector; giving the sample id/name to which each cell belongs to
 #' @param cluster a vector of cluster ID of each cell belongs to; (default: NULL); If NULL, hierarchical clustering will be used to assign cluster ID.
 #' @param genenum integer; Number of highly variable genes to build the cell population structure (default: 500)
-#' @param ncluster integer; Number of clusters to divide cells  (default: 10)
+#' @param ncluster integer; Number of clusters to divide cells  (default: 10); The parameter is used only when cluster is NULL
 #' @param nDim integer; Number of PCA dimensions to build the cell population structure  (default: 4)
 #' @param normalize logical; Indicate whether normalize data1 and data2 (default: TRUE, normalize to the total count and log2 transform)
 
