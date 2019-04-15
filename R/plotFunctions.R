@@ -18,12 +18,12 @@ Plotdiff_tree<-function(otu.tab, tree, diffpop_perm_max,relpop_perm_max, legendt
   edgewidth<-diffpop*5
   edgewidth[edgewidth<0.5]<-0.5
   
-  plot(tree,edge.color=col,edge.width=edgewidth, label.offset=2)
+  plot(tree,edge.color=col,edge.width=edgewidth, label.offset=1.5)
   
   pievalue<-t((otu.tab)/apply((otu.tab),1,sum))
   
   pievalue<-pievalue/apply(pievalue,1,sum)
-  tiplabels(pie=pievalue,piecol=c("red","blue"),adj=1,cex=0.6)
+  tiplabels(pie=pievalue,piecol=c("red","blue"),adj=1,cex=min(0.6,0.6*20/ncol(count.table)))
   legend("topleft",legend=c(legendtxt$samplenames), pch=16,col=c("red","blue"))
   title(paste("Distance=",round(legendtxt$dis,2),", pval=",legendtxt$pval))
 }
