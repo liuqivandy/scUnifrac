@@ -18,7 +18,7 @@ Plotdiff_tree<-function(otu.tab, tree, diffpop_perm_max,relpop_perm_max, legendt
   edgewidth<-diffpop*5
   edgewidth[edgewidth<0.5]<-0.5
   
-  plot(tree,edge.color=col,edge.width=edgewidth, label.offset=1.5)
+  plot(tree,edge.color=col,edge.width=edgewidth, label.offset=1.5,cex=min(1,40/ncol(otu.tab)))
   
   pievalue<-t((otu.tab)/apply((otu.tab),1,sum))
   
