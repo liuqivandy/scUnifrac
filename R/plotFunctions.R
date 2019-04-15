@@ -23,7 +23,7 @@ Plotdiff_tree<-function(otu.tab, tree, diffpop_perm_max,relpop_perm_max, legendt
   pievalue<-t((otu.tab)/apply((otu.tab),1,sum))
   
   pievalue<-pievalue/apply(pievalue,1,sum)
-  tiplabels(pie=pievalue,piecol=c("red","blue"),adj=1,cex=min(0.6,0.6*20/ncol(count.table)))
+  tiplabels(pie=pievalue,piecol=c("red","blue"),adj=1,cex=min(0.6,0.6*20/ncol(otu.tab)))
   legend("topleft",legend=c(legendtxt$samplenames), pch=16,col=c("red","blue"))
   title(paste("Distance=",round(legendtxt$dis,2),", pval=",legendtxt$pval))
 }
