@@ -15,6 +15,9 @@ Besides calculating the distance and the pvalue, scUnifrac will generate a [repo
 
 <a name="installation"/>
 
+#Citation
+If you use scUnifrac, please cite the paper. [Qi Liu, Charles A. Herring et al.,Quantitative assessment of cell population diversity in single-cell landscapes PLoS Biol. 2018 Oct; 16(10): e2006687.](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6211764/)
+
 # Installation
 
 To generate a report , you need to install pandoc (https://github.com/jgm/pandoc/releases/tag/2.2.1) . After installation , update your path to include the directory where pandoc’s binaries are installed.
