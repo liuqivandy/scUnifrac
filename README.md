@@ -28,7 +28,8 @@ To generate a report , you need to install pandoc (https://github.com/jgm/pandoc
 To install scUnifrac, use
 
 	source("https://bioconductor.org/biocLite.R")
-	biocLite("liuqivandy/scUnifrac")
+	BiocManager::install("liuqivandy/scUnifrac")
+	#biocLite("liuqivandy/scUnifrac")
   
 <a name="example"/>
 
